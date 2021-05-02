@@ -39,11 +39,11 @@ export default function Home({ setLoading }) {
       <Head>
         <title>Inventory Management App</title>
       </Head>
-      <div style={{ height: '35%', maxHeight: '400px', minHeight: '200px', background: 'url(./gradient-banner.jpg)', backgroundSize: '100% 100%', backgroundRepeat: 'no-repeat', }} >
+      <div style={{ height: '35%', maxHeight: '400px', minHeight: '200px', background: 'url(./gradient-banner.jpg)', backgroundSize: '100% 100%', backgroundRepeat: 'no-repeat', width: '100%', }} >
         <h2 style={{ color: 'white', paddingTop: '5%', textAlign: 'center', }}>Products</h2>
       </div>
 
-      <Table hover style={{ width: '75%', margin: 'auto', marginTop: '-50px', background: 'white', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues, zIndex: '1000', overflowX: 'scroll' }}>
+      <Table hover style={{ width: '75%', margin: 'auto', marginTop: '-50px', background: 'white', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues, zIndex: '1000', overflowX: 'scroll', maxWidth: '100vw', }}>
         <thead>
           <tr>
             <th>Core Number</th>
