@@ -43,7 +43,7 @@ export default function Home({ setLoading }) {
         <h2 style={{ color: 'white', paddingTop: '5%', textAlign: 'center', }}>Products</h2>
       </div>
 
-      <Table style={{ width: '75%', margin: 'auto', marginTop: '-50px', background: 'white', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues, }}>
+      <Table hover style={{ width: '75%', margin: 'auto', marginTop: '-50px', background: 'white', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues, zIndex: '1000', overflowX: 'scroll' }}>
         <thead>
           <tr>
             <th>Core Number</th>
