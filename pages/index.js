@@ -8,23 +8,25 @@ import { API_STATUS } from '../api';
 
 export const boxShadowValues = '3px 10px 29px -11px rgba(0,0,0,0.50)';
 
-export default function Home({ response, loading, setLoading }) {
+export default function Home({ response, setLoading }) {
   const router = useRouter();
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [totalPages, setTotalPages] = useState(1);
-  const [products, setProducts] = useState(response.data);
+  const [totalPages, setTotalPages] = useState(response.data.total);
+  const [products, setProducts] = useState(response.data.data || []);
 
   useEffect(() => {
     fetchProducts();
   }, [page, pageSize]);
 
+  console.log('products -> ', products);
 
   async function fetchProducts() {
     try {
       setLoading(true);
       const products = await ProductApi.list(page, pageSize);
-      setProducts(products.data);
+      setProducts(products.data.data);
+      setTotalPages(Math.floor(products.data.total / pageSize));
     } catch (error) {
       alert('Failed to fetch products');
       // console.log('failed to fetch products')
@@ -33,7 +35,7 @@ export default function Home({ response, loading, setLoading }) {
     }
   }
 
-  if (response.status != API_STATUS.SUCCESS) {
+  if (response.status !== API_STATUS.SUCCESS) {
     return <div>failed to load products. Please try again</div>;
   }
 
@@ -59,16 +61,16 @@ export default function Home({ response, loading, setLoading }) {
         </thead>
         <tbody>
           {products.map(each =>
-            <tr key={each.id}>
-              <td>{each.coreNumber}</td>
-              <td>{each.internalTitle}</td>
-              <td>{each.vendor}</td>
-              <td>{each.vendorTitle}</td>
-              <td>{each.vendorSKU}</td>
-              <td><>
-                <Eye onClick={() => { router.push(`/${each.id}`); }} />
-              </></td>
-            </tr>
+          (<tr key={each.id}>
+            <td>{each.coreNumber}</td>
+            <td>{each.internalTitle}</td>
+            <td>{each.vendor}</td>
+            <td>{each.vendorTitle}</td>
+            <td>{each.vendorSKU}</td>
+            <td><>
+              <Eye onClick={() => { router.push(`/${each.id}`); }} />
+            </></td>
+          </tr>)
 
           )}
         </tbody>
@@ -89,20 +91,20 @@ function Pagination({ currentPage = 0, currentPageSize = 10, totalPages = 1, onC
       </select></div>
 
       <div style={{ display: 'flex', }}>
-        {currentPage < 2 ? null : <PaginationButton onClick={onChangePage} value='<<' />}
-        {currentPage === 0 ? null : <PaginationButton onClick={onChangePage} value='<' />}
-        <PaginationButton onClick={onChangePage} value={currentPage + 1} isCurrentPage />
-        {currentPage === totalPages ? null : <PaginationButton onClick={onChangePage}  value='>' />}
-        {currentPage = totalPages - 1 ? null : <PaginationButton onClick={onChangePage} value='>>' />}
+        {currentPage < 2 ? null : <PaginationButton onClick={() => onChangePage(0)} value='<<' />}
+        {currentPage === 0 ? null : <PaginationButton onClick={() => onChangePage(currentPage - 1)} value='<' />}
+        <PaginationButton onClick={() => { }} value={currentPage + 1} isCurrentPage />
+        {currentPage === totalPages ? null : <PaginationButton onClick={() => onChangePage(currentPage + 1)} value='>' />}
+        {currentPage > totalPages - 2 ? null : <PaginationButton onClick={() => onChangePage(totalPages)} value='>>' />}
       </div>
     </div>
   );
 }
 
 
-function PaginationButton({ value, isCurrentPage = false }) {
+function PaginationButton({ value, isCurrentPage = false, onClick }) {
   return (
-    <div style={{ borderRadius: '50%', padding: '20px', height: '30px', width: '30px', background: isCurrentPage ? 'black' : 'white', color: isCurrentPage ? 'white' : 'black', margin: '0 10px', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues, display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+    <div style={{ borderRadius: '50%', padding: '20px', height: '30px', width: '30px', background: isCurrentPage ? 'black' : 'white', color: isCurrentPage ? 'white' : 'black', margin: '0 10px', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', }} onClick={onClick}>
       {value}
     </div>
   );
