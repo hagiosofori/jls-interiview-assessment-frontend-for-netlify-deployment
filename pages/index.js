@@ -91,8 +91,8 @@ function Pagination({ currentPage = 0, currentPageSize = 10, totalPages = 1, onC
       <div style={{ display: 'flex', }}>
         {currentPage < 2 ? null : <PaginationButton onClick={onChangePage} value='<<' />}
         {currentPage === 0 ? null : <PaginationButton onClick={onChangePage} value='<' />}
-        <PaginationButton onClick={onChangePage} value={currentPage + 1} />
-        {currentPage === totalPages ? null : <PaginationButton onClick={onChangePage} isCurrentPage value='>' />}
+        <PaginationButton onClick={onChangePage} value={currentPage + 1} isCurrentPage />
+        {currentPage === totalPages ? null : <PaginationButton onClick={onChangePage}  value='>' />}
         {currentPage = totalPages - 1 ? null : <PaginationButton onClick={onChangePage} value='>>' />}
       </div>
     </div>
