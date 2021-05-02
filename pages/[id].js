@@ -27,7 +27,7 @@ function Product(props) {
 
   useEffect(() => { fetchProduct(); }, []);
 
-  const currentTotal = product.locations.reduce((total, each) => {
+  const currentTotal = !product?.locations ? 0 : product?.locations.reduce((total, each) => {
     if (!each) return total;
     // because some of the values can be strings, unfortunately.
     return parseInt(total) + parseInt(each.quantity.toString().split(',').join(''));
@@ -82,7 +82,7 @@ function Product(props) {
         <br /><br /><hr />
 
         <h2>Locations</h2>
-        {product?.locations?.length === 0 ? "No locations to display" : <Locations loading={loading} setLoading={setLoading} locations={product.locations} refreshProduct={fetchProduct} />}
+        {product?.locations?.length === 0 ? "No locations to display" : <Locations loading={loading} setLoading={setLoading} locations={product?.locations} refreshProduct={fetchProduct} />}
 
         <br /><br /><hr />
 
@@ -132,7 +132,7 @@ const Locations = ({ locations, setLoading, refreshProduct }) => {
       onSave={storeQuantityUpdate}
     />
 
-    {locations.map((each, index) => <div key={each.id} style={{ display: 'flex', alignItems: 'center', }}>
+    {locations?.map((each, index) => <div key={each.id} style={{ display: 'flex', alignItems: 'center', }}>
       <span>{index + 1}</span>
       <Section title='Location' value={each.Location.name} />
 
