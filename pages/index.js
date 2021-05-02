@@ -61,7 +61,7 @@ export default function Home({ setLoading }) {
             <td>{each.internalTitle}</td>
             <td>{each.vendor}</td>
             <td>{each.vendorTitle}</td>
-            <td>{each.vendorSKU}</td>
+            <td>{each.active}</td>
             <td><>
               <Eye onClick={() => { router.push(`/${each.id}`); }} />
             </></td>
