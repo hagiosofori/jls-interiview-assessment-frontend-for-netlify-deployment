@@ -10,12 +10,12 @@ export async function update({ quantity, id }) {
         'Content-Type': 'application/json',
       }
     }).then(res => res.json());
-    console.log('productLocations-update :: data -> ', response)
+    // console.log('productLocations-update :: data -> ', response)
 
     const data = response;
     return { status: API_STATUS.SUCCESS, data };
   } catch (error) {
-    console.log('error updating product location -> ', error);
+    // console.log('error updating product location -> ', error);
     throw { status: API_STATUS.FAILED, message: error.toString() };
   }
 }

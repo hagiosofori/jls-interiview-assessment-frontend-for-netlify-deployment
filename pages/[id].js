@@ -2,22 +2,21 @@ import { Card, Form, Container, Row, Col } from 'react-bootstrap';
 import { boxShadowValues } from '.';
 import { useRouter } from 'next/router';
 import Modal from 'react-bootstrap/Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductApi from '../api/products';
 import ProductLocationApi from '../api/productLocations';
 
 function Product(props) {
-  const { response, setLoading, loading } = props;
+  const { setLoading, loading } = props;
   const router = useRouter();
-  // console.log('response -> ', response);
-  const [product, setProduct] = useState(response);
+  const [product, setProduct] = useState({});
 
   async function fetchProduct() {
     try {
       const { id } = router.query;
       setLoading(true);
       const response = await ProductApi.get(id);
-      console.log('updated products -> ', response);
+      // console.log('updated products -> ', response);
       setProduct(response.data);
     } catch (error) {
       alert('Unable to get product details');
@@ -25,6 +24,8 @@ function Product(props) {
       setLoading(false);
     }
   }
+
+  useEffect(() => { fetchProduct(); }, []);
 
   const currentTotal = product.locations.reduce((total, each) => {
     if (!each) return total;
@@ -38,11 +39,11 @@ function Product(props) {
       <h2 style={{ color: 'white', paddingTop: '5%', textAlign: 'center', width: '75%', minWidth: '500px', margin: 'auto', }}>
 
         <img src='./back-arrow-white.svg' style={{ marginRight: '30px', cursor: 'pointer', }} onClick={() => router.push('/')} />
-        {response.internalTitle}
+        {product.internalTitle}
       </h2>
     </div>
 
-    <Card style={{ width: '75%', maxWidth: '1000px', minWidth: '500px', margin: 'auto', marginTop: '-50px', }}>
+    <Card style={{ width: '75%', maxWidth: '1000px', minWidth: '500px', margin: 'auto', marginTop: '-50px', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues }}>
 
       <Card.Body>
         <div style={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between', }}>
@@ -85,7 +86,7 @@ function Product(props) {
 
         <br /><br /><hr />
 
-        <Section title='Notes' value={response?.notes} />
+        <Section title='Notes' value={product?.notes} />
       </Card.Body>
     </Card>
     <style jsx>{`
@@ -117,7 +118,7 @@ const Locations = ({ locations, setLoading, refreshProduct }) => {
       alert('Quantity updated');
     } catch (error) {
       alert('Unable to update quantity');
-      console.log('error -> ', error);
+      // console.log('error -> ', error);
     } finally {
       setLoading(false);
     }
@@ -177,16 +178,16 @@ const Section = ({ children, title, value }) => <div style={{ width: '20%', minW
 </div>;
 
 
-export async function getServerSideProps(ctx) {
-  try {
-    const { id } = ctx.query;
-    const response = await fetch(`http://localhost/products/${id}`).then(res => res.json());
-    console.log('response -> ', response);
-    return { props: { response } };
-  } catch (error) {
-    console.log('failed to fetch product details -> ', error);
-    return { props: {} };
-  }
-}
+// export async function getServerSideProps(ctx) {
+//   try {
+//     const { id } = ctx.query;
+//     const response = await fetch(`http://localhost/products/${id}`).then(res => res.json());
+//     console.log('response -> ', response);
+//     return { props: { response } };
+//   } catch (error) {
+//     console.log('failed to fetch product details -> ', error);
+//     return { props: {} };
+//   }
+// }
 
 export default Product;

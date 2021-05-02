@@ -7,7 +7,7 @@ export async function list(page, pageSize) {
       .then(data => ({ status: API_STATUS.SUCCESS, data }));
     return response;
   } catch (error) {
-    console.log('failed to fetch products -> ', error);
+    // console.log('failed to fetch products -> ', error);
     return { status: API_STATUS.FAILED, message: error.toString() };
   }
 }
@@ -20,7 +20,7 @@ export async function get(id) {
       .then(data => ({ status: API_STATUS.SUCCESS, data }));
     return response;
   } catch (e) {
-    console.log('failed to fetch product details -> ', e);
+    // console.log('failed to fetch product details -> ', e);
     return { status: API_STATUS.FAILED, message: e.toString() };
   }
 }

@@ -8,18 +8,17 @@ import { API_STATUS } from '../api';
 
 export const boxShadowValues = '3px 10px 29px -11px rgba(0,0,0,0.50)';
 
-export default function Home({ response, setLoading }) {
+export default function Home({ setLoading }) {
   const router = useRouter();
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [totalPages, setTotalPages] = useState(response.data.total);
-  const [products, setProducts] = useState(response.data.data || []);
+  const [totalPages, setTotalPages] = useState(0);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     fetchProducts();
   }, [page, pageSize]);
 
-  console.log('products -> ', products);
 
   async function fetchProducts() {
     try {
@@ -33,10 +32,6 @@ export default function Home({ response, setLoading }) {
     } finally {
       setLoading(false);
     }
-  }
-
-  if (response.status !== API_STATUS.SUCCESS) {
-    return <div>failed to load products. Please try again</div>;
   }
 
   return (
@@ -110,12 +105,12 @@ function PaginationButton({ value, isCurrentPage = false, onClick }) {
   );
 }
 
-export async function getServerSideProps() {
-  try {
-    const response = await ProductApi.list(0, 10);
-    return { props: { response } };
-  } catch (error) {
-    console.log('failed to fetch products -> ', error);
-    return {};
-  }
-}
+// export async function getServerSideProps() {
+//   try {
+//     const response = await ProductApi.list(0, 10);
+//     return { props: { response } };
+//   } catch (error) {
+//     console.log('failed to fetch products -> ', error);
+//     return {};
+//   }
+// }
