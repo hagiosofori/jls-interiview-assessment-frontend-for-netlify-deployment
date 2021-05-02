@@ -43,33 +43,36 @@ export default function Home({ setLoading }) {
         <h2 style={{ color: 'white', paddingTop: '5%', textAlign: 'center', }}>Products</h2>
       </div>
 
-      <Table hover style={{ width: '75%', margin: 'auto', marginTop: '-50px', background: 'white', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues, zIndex: '1000', overflowX: 'scroll', maxWidth: '100vw', }}>
-        <thead>
-          <tr>
-            <th>Core Number</th>
-            <th>Internal Title</th>
-            <th>Vendor</th>
-            <th>Vendor Title</th>
-            <th>Active</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(each =>
-          (<tr key={each.id}>
-            <td>{each.coreNumber}</td>
-            <td>{each.internalTitle}</td>
-            <td>{each.vendor}</td>
-            <td>{each.vendorTitle}</td>
-            <td>{each.active}</td>
-            <td><>
-              <Eye onClick={() => { router.push(`/${each.id}`); }} />
-            </></td>
-          </tr>)
+      <div style={{  marginTop: '-50px', zIndex: '100', position: 'relative', }}>
+        <Table hover style={{ width: '75%', margin: 'auto', marginTop: '-50px', background: 'white', boxShadow: boxShadowValues, WebkitBoxShadow: boxShadowValues, maxWidth: '100vw', overflowX: 'scroll',}}>
+          <thead>
+            <tr>
+              <th>Core Number</th>
+              <th>Internal Title</th>
+              <th>Vendor</th>
+              <th>Vendor Title</th>
+              <th>Active</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map(each =>
+            (<tr key={each.id}>
+              <td>{each.coreNumber}</td>
+              <td>{each.internalTitle}</td>
+              <td>{each.vendor}</td>
+              <td>{each.vendorTitle}</td>
+              <td>{each.active}</td>
+              <td><>
+                <Eye onClick={() => { router.push(`/${each.id}`); }} />
+              </></td>
+            </tr>)
 
-          )}
-        </tbody>
-      </Table>
+            )}
+          </tbody>
+        </Table>
+
+      </div>
 
       <Pagination totalPages={totalPages} currentPage={page} currentPageSize={pageSize} onChangePageSize={setPageSize} onChangePage={setPage} />
     </div>
